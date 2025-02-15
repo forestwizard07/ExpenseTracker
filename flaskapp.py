@@ -23,7 +23,7 @@ TRANSACTIONS = [
     {
         'id':4,
         'amount':40,
-        'desc': 'Notebook',
+        'desc': 'Scale',
         'date': '15-02-2025'
     }
 ]
