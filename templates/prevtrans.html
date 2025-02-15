@@ -1,0 +1,16 @@
+<table class="table table-striped">
+    <tr>
+        <th>ID</th>
+        <th>Amount</th>
+        <th>Description</th>
+        <th>Date</th>
+    </tr>
+    {% for expense in trans %}
+    <tr>
+        <td>{{expense['id']}}</td>
+        <td>{{expense['amount']}}</td>
+        <td>{{expense['desc']}}</td>
+        <td>{{expense['date']}}</td>
+    </tr>
+    {% endfor %}
+</table>
