@@ -13,8 +13,8 @@
         </style>
     </head>
     <body>
-        
-        <h1 class="text-center">Expense Tracker</h1>
+        {% include 'nav.html' %}
+        <h1 class="text-center">Dashboard</h1>
         <img class="img-fluid" id="banner" src = "http://127.0.0.1:5000/static/banner.jpeg">
         <div class="container-fluid row">
             <div class="col-6">
@@ -30,6 +30,9 @@
                     {% include 'prevtrans.html'%}
                 </p>
             </div>
+            
         </div>
+        
+        {% include 'footer.html'%}
     </body>
 </html>
