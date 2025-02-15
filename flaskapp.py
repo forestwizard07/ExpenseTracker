@@ -1,40 +1,44 @@
-from flask import Flask, jsonify , render_template
+from flask import Flask, jsonify, redirect , render_template, request, url_for
+import mysql.connector
+from database import load_expenses,load_expense,add_expense
+from sqlalchemy import text
 app = Flask(__name__) #the name variable will tell from where it was invoked
 
-TRANSACTIONS = [
-    {
-        'id':1,
-        'amount':20000,
-        'desc': 'Goa Trip',
-        'date': '27-01-2025'
-    },
-    {
-        'id':2,
-        'amount':4000,
-        'desc': 'Fan',
-        'date': '3-02-2025'
-    },
-    {
-        'id':3,
-        'amount':30,
-        'desc': 'Ice cream',
-        'date': '15-02-2025'
-    },
-    {
-        'id':4,
-        'amount':40,
-        'desc': 'Scale',
-        'date': '15-02-2025'
-    }
-]
+'''def get_db_connection():
+    return mysql.connector.connect(
+        host="localhost",     # Change if using a remote database
+        user="root",
+        password="Chintamani1#",
+        database="expenses"
+    )'''
 
 @app.route("/")
-def hello_world():
-    return render_template("home.html",trans=TRANSACTIONS)
+def render_expenses():
+    expenses  = load_expenses()
+    return render_template('home.html', trans=expenses)
+
 
 @app.route("/api/transactions")
 def list_transactions():
-    return jsonify(TRANSACTIONS)
+    expenses = load_expenses()
+    return jsonify(expenses)
+
+@app.route("/expense/<id>")
+def show_expense(id):
+    expense = load_expense(id)
+    trans = expense[0]
+    return render_template('expense.html',expense=trans)
+
+@app.route("/add")
+def addExpense():
+    data = request.args
+    add_expense(data)
+    return redirect(url_for('render_expenses'))
+    '''add_expense(amt,desc,date)
+    expenses  = load_expenses()
+    return render_template('home.html', trans=expenses)'''
+
+
 
 if __name__ == "__main__":
     app.run(debug=True)

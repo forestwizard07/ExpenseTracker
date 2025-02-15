@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Expense Report</title>
+        {% include 'bootstrap.html' %}
+        
+    </head>
+
+    <body>
+        {% include 'nav.html' %} 
+        <div class="container">
+            <h3>Description</h3> 
+            <p>{{expense.comments}}</p>
+            <h3>Amount</h3>
+            <p>{{expense.amount}}</p>
+            <h3>Date</h3>
+            <p>{{expense.dateofExpense}}</p>
+        </div>
+       {% include 'footer.html' %}
+    </body>
+</html>
