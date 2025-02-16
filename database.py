@@ -24,12 +24,26 @@ def load_expense(id):
     else:
         return expenses
     
-def add_expense(data):
+def add_expense(data,curr):
     conn = get_db_connection()
-    print(data['date'])
     cursor = conn.cursor(dictionary=True) 
-    cursor.execute("insert into expenselog (amount,comments,dateofExpense) values (%s,%s,%s)",(data['amount'],data['desc'],data['date']))
+    cursor.execute("insert into expenselog (amount,comments,dateofExpense,dateofLog) values (%s,%s,%s,%s)",(data['amount'],data['desc'],data['date'],curr))
     conn.commit()
     conn.close()
+
+def delete_Expense(trans):
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True) 
+    cursor.execute("delete from expenselog where id = %s",(int(trans['id']),))
+    conn.commit()
+    conn.close()
+
+def load_all():
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True) 
+    cursor.execute("SELECT * FROM expenselog ORDER BY dateofExpense DESC;")
+    expenses = cursor.fetchall()  
+    return expenses
+
 
 
