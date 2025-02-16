@@ -35,6 +35,7 @@ def delete_Expense(trans):
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True) 
     cursor.execute("delete from expenselog where id = %s",(int(trans['id']),))
+    cursor.execute("ALTER TABLE expenselog AUTO_INCREMENT = 1")
     conn.commit()
     conn.close()
 

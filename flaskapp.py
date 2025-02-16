@@ -41,6 +41,20 @@ def render_all():
     expenses = load_all()
     return render_template('alltrans.html',trans=expenses)
 
+@app.route("/analysis")
+def render_analysis():
+    data = [
+        ('Parth',99),
+        ('Sai',45),
+        ('Karthik',67),
+        ('Advaith',56),
+        ('Prajesh',100)
+    ]
+    labels = [row[0] for row in data]
+    values = [row[1] for row in data]
+    return render_template('analyse.html',labels=labels,values=values)
+
+
 
 
 if __name__ == "__main__":
