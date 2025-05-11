@@ -2,6 +2,7 @@
 <html>
     <head>
         <title>Expense Tracker</title>
+        <link rel="icon" type="image/x-icon" href="/static/rupee.png">
         {% include 'bootstrap.html' %}
         <style>
             #banner{
@@ -19,10 +20,11 @@
                 {% include 'addexpense.html' %}
             </div>
             <div class="col-6">
-                <h2 class="text-center">Last 10 Transactions</h2>
+                <h2 class="text-center">This Month's Expenditure</h2>
                 <p class="text-center">
                     {% include 'prevtrans.html'%}
                 </p>
+                <span class="d-block p-2" style="background-color:#dee2e6">Total (this month): {{sum}}</span><br><br>
                 <a href="/allExpenses" class="btn btn-warning">View all Transactions</a>
                 <a href="/analysis" class="btn btn-dark">Analyse my Expenses</a>
             </div>

@@ -9,10 +9,26 @@
         <input type="text" class="form-control" name="desc" placeholder="Write here..." required>
     </div>
     <div class="mb-3">
-        <label for="exampleInputPassword1" class="form-label">Date</label>
+        <label for="exampleInputEmail1" class="form-label">Mode of Payment</label><br>
+        <select name="mode" class="form-select" aria-label="Default select example">
+            <option value="UPI">UPI</option>
+            <option value="Credit Card">Credit Card</option>
+            <option value="Debit Card">Debit Card</option>
+            <option value="Cash">Cash</option>
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Category</label><br>
+        <select name="category" class="form-select" aria-label="Default select example">
+            <option value="Leisure">Leisure</option>
+            <option value="Nessecity">Nessecity</option>
+            <option value="Travel">Travel</option>
+            <option value="Electronics">Electronics</option>
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="exampleInputPassword1" class="form-label">Date of Expense</label>
         <input type="date" class="form-control" name="date" required>
     </div>
     <button type="submit" class="btn btn-success text-center">Add Expense</button>   
-</form>
-
-    
+</form>  

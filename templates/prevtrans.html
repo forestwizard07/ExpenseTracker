@@ -8,11 +8,15 @@
     </tr>
     {% for expense in trans %}
     <tr>
-        <td>{{expense.amount}}</td>
-        <td>{{expense.comments}}</td>
-        <td>{{expense.dateofExpense}}</td>
-        <td><a href="/expense/{{expense.id}}" class="btn btn-primary btn-sm">View</td>
-        <td><a href="/delete/{{expense.id}}" class="btn btn-danger btn btn-primary btn-sm">Delete</td>
+        <td>{{ expense[1] }}</td>  <!-- Amount is at index 1 -->
+        <td>{{ expense[2] }}</td>  <!-- Comments are at index 2 -->
+        <td>{{ expense[3] }}</td>  <!-- DateofExpense is at index 3 -->
+        <td><a href="/expense/{{ expense[0] }}" class="btn btn-primary btn-sm">View</a></td>  <!-- ID is at index 0 -->
+        <td><a href="/delete/{{ expense[0] }}" class="btn btn-danger btn-sm">Delete</a></td>  <!-- ID is at index 0 -->
+    </tr>
+    {% else %}
+    <tr>
+        <td colspan="5">No expenses found for this month.</td>
     </tr>
     {% endfor %}
 </table>

@@ -1,50 +1,72 @@
-import mysql.connector
+# db.py
+import psycopg2
+import os
+
 def get_db_connection():
-    return mysql.connector.connect(
-        host="localhost",     # Change if using a remote database
-        user="root",
-        password="Chintamani1#",
-        database="expenses"
-    )
-def load_expenses():
+    return psycopg2.connect(os.environ.get('DATABASE_URL'))
+
+
+def load_expenses(month):
     conn = get_db_connection()
-    cursor = conn.cursor(dictionary=True) 
-    cursor.execute("SELECT * FROM expenselog ORDER BY id DESC LIMIT 10;")
-    expenses = cursor.fetchall()  
+    cursor = conn.cursor()  # Use RealDictCursor here
+    cursor.execute("SELECT * FROM expenselog WHERE EXTRACT(MONTH FROM dateofExpense) = %s ORDER BY dateofExpense DESC", (month,))
+    expenses = cursor.fetchall()
+    conn.close()
+    print(f"Fetched expenses: {expenses}")  # Debugging line
     return expenses
 
-def load_expense(id):
+
+def load_sum(month):
     conn = get_db_connection()
-    cursor = conn.cursor(dictionary=True) 
-    cursor.execute("SELECT * FROM expenselog WHERE id = %s", (id,))
-       
-    expenses = cursor.fetchall() 
-    if len(expenses) == 0:
-        return None
+    cur = conn.cursor()
+    if month == 0:
+        cur.execute("SELECT SUM(amount) FROM expenselog;")
     else:
-        return expenses
-    
-def add_expense(data,curr):
+        cur.execute("SELECT SUM(amount) FROM expenselog WHERE EXTRACT(MONTH FROM dateofExpense) = %s;", (month,))
+    total = cur.fetchone()
+    conn.close()
+    print(total[0])
+    return total[0]  # return the numeric value
+
+def load_expense(expense_id):
     conn = get_db_connection()
-    cursor = conn.cursor(dictionary=True) 
-    cursor.execute("insert into expenselog (amount,comments,dateofExpense,dateofLog) values (%s,%s,%s,%s)",(data['amount'],data['desc'],data['date'],curr))
-    conn.commit()
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM expenselog WHERE id = %s;", (expense_id,))
+    expense = cur.fetchone()
+    conn.close()
+    
+    if expense is None:
+        return None  # or handle this case as needed
+    
+    # Return the full tuple or create a dictionary to make accessing easier
+    return {
+        'id': expense[0],
+        'amount': expense[1],
+        'comments': expense[2],
+        'dateofExpense': expense[3],
+        'dateofLog': expense[4],
+        'mode': expense[5]
+    }
+def add_expense(data, curr):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("INSERT INTO expenselog (amount, comments, dateofExpense, dateofLog, mode) VALUES (%s, %s, %s, %s, %s)",
+                   (data['amount'], data['desc'], data['date'], curr, data['mode']))
+    conn.commit()  # Make sure this commit is executed
     conn.close()
 
-def delete_Expense(trans):
+
+def delete_expense(expense_id):
     conn = get_db_connection()
-    cursor = conn.cursor(dictionary=True) 
-    cursor.execute("delete from expenselog where id = %s",(int(trans['id']),))
-    cursor.execute("ALTER TABLE expenselog AUTO_INCREMENT = 1")
+    cur = conn.cursor()
+    cur.execute("DELETE FROM expenselog WHERE id = %s;", (expense_id,))
     conn.commit()
     conn.close()
 
 def load_all():
     conn = get_db_connection()
-    cursor = conn.cursor(dictionary=True) 
-    cursor.execute("SELECT * FROM expenselog ORDER BY dateofExpense DESC;")
-    expenses = cursor.fetchall()  
-    return expenses
-
-
-
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM expenselog ORDER BY dateofExpense DESC;")
+    expense = cur.fetchall()
+    conn.close()
+    return expense

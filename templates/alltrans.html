@@ -18,20 +18,23 @@
             <tr>
                 <th>Amount</th>
                 <th>Description</th>
+                <th>Mode</th>
                 <th>Date of Expense</th>
                 <th>Date of Log</th>
                 <th>Delete</th>
             </tr>
             {% for expense in trans %}
             <tr>
-                <td>{{expense.amount}}</td>
-                <td>{{expense.comments}}</td>
-                <td>{{expense.dateofExpense}}</td>
-                <td>{{expense.dateofLog}}</td>
-                <td><a href="/delete/{{expense.id}}" class="btn btn-danger btn btn-primary btn-sm">Delete</td>
+                <td>{{expense[1]}}</td>
+                <td>{{expense[2]}}</td>
+                <td>{{expense[5]}}</td>
+                <td>{{expense[3]}}</td>
+                <td>{{expense[4]}}</td>
+                <td><a href="/delete/{{expense[0]}}" class="btn btn-danger btn btn-primary btn-sm">Delete</td>
             </tr>
             {% endfor %}
         </table> 
+        <span class="d-block p-2" style="background-color:#dee2e6">Total: {{sum}}</span><br><br>
         <a href="/" class="btn btn-success">Back to Dashboard</a>   
         {% include 'footer.html'%}
     </body>
