@@ -45,13 +45,14 @@ def load_expense(expense_id):
         'comments': expense[2],
         'dateofExpense': expense[3],
         'dateofLog': expense[4],
-        'mode': expense[5]
+        'mode': expense[5],
+        'category':expense[6]
     }
 def add_expense(data, curr):
     conn = get_db_connection()
     cursor = conn.cursor()
-    cursor.execute("INSERT INTO expenselog (amount, comments, dateofExpense, dateofLog, mode) VALUES (%s, %s, %s, %s, %s)",
-                   (data['amount'], data['desc'], data['date'], curr, data['mode']))
+    cursor.execute("INSERT INTO expenselog (amount, comments, dateofExpense, dateofLog, mode, category) VALUES (%s, %s, %s, %s, %s, %s)",
+                   (data['amount'], data['desc'], data['date'], curr, data['mode'],data['category']))
     conn.commit()  # Make sure this commit is executed
     conn.close()
 
@@ -70,3 +71,11 @@ def load_all():
     expense = cur.fetchall()
     conn.close()
     return expense
+
+def fetch_analysis(month):
+    conn = get_db_connection()
+    cur = conn.cursor()
+    cur.execute("SELECT category,sum(amount) from expenselog WHERE EXTRACT(MONTH FROM dateofExpense) = %s group by category;", (month,))
+    analysis = cur.fetchall()
+    conn.close()
+    return analysis

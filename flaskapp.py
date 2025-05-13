@@ -1,7 +1,7 @@
 from datetime import date
 from flask import Flask, jsonify, redirect , render_template, request, url_for
 import psycopg2
-from database import load_expenses,load_expense,add_expense,load_all,delete_expense,load_sum
+from database import load_expenses,load_expense,add_expense,load_all,delete_expense,load_sum,fetch_analysis
 #from sqlalchemy import text
 from dotenv import load_dotenv
 load_dotenv()
@@ -47,16 +47,12 @@ def render_all():
 
 @app.route("/analysis")
 def render_analysis():    
-    data = [
-        ('Person 1',99),
-        ('Person 2',45),
-        ('Person 3',67),
-        ('Person 4',56),
-        ('Person 5',100)
-    ]
+    curr_date = date.today()
+    curr_month = curr_date.month
+    data = fetch_analysis(curr_month)
     labels = [row[0] for row in data]
     values = [row[1] for row in data]
-    return render_template('analyse.html',labels=labels,values=values)
+    return render_template('analyse.html',labels=labels,values=values,table_data=data)
 
 
 

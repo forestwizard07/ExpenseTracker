@@ -2,6 +2,7 @@
     <tr>
         <th>Amount</th>
         <th>Description</th>
+        <th>Category</th>
         <th>Date</th>
         <th>Details</th>
         <th>Delete</th>
@@ -10,6 +11,7 @@
     <tr>
         <td>{{ expense[1] }}</td>  <!-- Amount is at index 1 -->
         <td>{{ expense[2] }}</td>  <!-- Comments are at index 2 -->
+        <td>{{ expense[6] }}</td>
         <td>{{ expense[3] }}</td>  <!-- DateofExpense is at index 3 -->
         <td><a href="/expense/{{ expense[0] }}" class="btn btn-primary btn-sm">View</a></td>  <!-- ID is at index 0 -->
         <td><a href="/delete/{{ expense[0] }}" class="btn btn-danger btn-sm">Delete</a></td>  <!-- ID is at index 0 -->
