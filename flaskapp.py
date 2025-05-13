@@ -2,7 +2,7 @@ from datetime import date
 from flask import Flask, jsonify, redirect , render_template, request, url_for
 import psycopg2
 from database import load_expenses,load_expense,add_expense,load_all,delete_expense,load_sum
-from sqlalchemy import text
+#from sqlalchemy import text
 from dotenv import load_dotenv
 load_dotenv()
 app = Flask(__name__) #the name variable will tell from where it was invoked
